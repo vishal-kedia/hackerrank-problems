@@ -13,6 +13,10 @@ import java.util.Scanner;
  * 
  * Unfairness is nothing but the sum of difference of all the candies in all the picked up packets. 
  */
+/**
+ * @author vishal.kedia
+ *
+ */
 public class AngryChildren2 {
 
     public static void main(String[] args) {
@@ -73,6 +77,10 @@ public class AngryChildren2 {
         }
         return minDiff;
     }
+    /*
+     * calculate the unfairness when including the next packet using the unfairness of without
+     * including the next packet ie. previous unfairness.
+     */
     private static long unfairness(long[] packets,long[] addedCandies,int ki, int kj){
         long diff = 0;
         for (int i = ki+1; i <= kj; i++) {
