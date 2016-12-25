@@ -25,7 +25,7 @@ public class AngryChildren2 {
         }
         long startTime = System.currentTimeMillis();
         System.out.println(minimumUnfairness(packets, noOfChildrens));
-        System.out.println("Execution Time ="+(System.currentTimeMillis()-startTime));
+        //System.out.println("Execution Time ="+(System.currentTimeMillis()-startTime));
     }
     
     private static long minimumUnfairness(long[] packets,int noOfChildrens){
@@ -61,7 +61,7 @@ public class AngryChildren2 {
         return mem.get(key);
     }
     private static long minimumUnfairnessIterativeInternal(long[] packets,long[] addedCandies,int noOfChildrens){
-        long minDiff = unfairness(packets, 0, noOfChildrens-1);
+        long minDiff = unfairness(packets,addedCandies, 0, noOfChildrens-1);
         long diff = minDiff;
         //System.out.println(String.format("diff(%d,%d)=%d", 0,noOfChildrens-1,diff));
         for (int i = 1; i < packets.length-noOfChildrens+1; i++) {
@@ -73,14 +73,20 @@ public class AngryChildren2 {
         }
         return minDiff;
     }
-    private static long unfairness(long[] packets,int ki, int kj){
+    private static long unfairness(long[] packets,long[] addedCandies,int ki, int kj){
         long diff = 0;
-        for (int i = ki; i < kj; i++) {
-            for (int j = i+1; j <= kj; j++) {
-                diff += packets[j]-packets[i];
-            }
+        for (int i = ki+1; i <= kj; i++) {
+            diff += i*packets[i]-(sumOfElementsBetweenIndexIncluding(addedCandies, ki, i-1));
+            //System.out.println(String.format("diff(%d,%d)=diff(%d,%d) + %d*pack(%d)-sum(%d,%d)", ki,i,ki,i-1,i,i,ki,i-1));
         }
         return diff;
+    }
+    private static long sumOfElementsBetweenIndexIncluding(long[] addedCandies,int i, int j){
+        if(i>0){
+            return addedCandies[j]-addedCandies[i-1];
+        }else{
+            return addedCandies[j];
+        }
     }
 
 }
