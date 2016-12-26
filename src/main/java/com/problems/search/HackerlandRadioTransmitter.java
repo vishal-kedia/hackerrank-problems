@@ -5,6 +5,15 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
+/**
+ * Hackerland is a one-dimensional city with `n` houses, where each house `i` is located at some `xi` 
+ * on the x-axis. The Mayor wants to install radio transmitters on the roofs of the city's houses. Each 
+ * transmitter has a range, k , meaning it can transmit a signal to all houses <=k units of distance away. * 
+ *
+ * Given a map of Hackerland and the value of k, can you find and print the minimum number of transmitters 
+ * needed to cover every house in the city? (Every house must be covered by at least one transmitter) Each 
+ * transmitter must be installed on top of an existing house.
+ */
 public class HackerlandRadioTransmitter {
 
     public static void main(String[] args) {
@@ -15,16 +24,19 @@ public class HackerlandRadioTransmitter {
         for(int x_i=0; x_i < n; x_i++){
             x[x_i] = in.nextInt();
         }
-        Arrays.sort(x);
+        System.out.println(minNoOfTransmitters(x, k));
+    }
+    public static int minNoOfTransmitters(int[] house,int range){
+        Arrays.sort(house);
         int leftCoveredHouse = 0;
         int rightCoveredHouse = 0;
         int candidateForTransmitter = 0;
         List<Integer> transmitterLocations = new ArrayList<Integer>();
-        for (;rightCoveredHouse < x.length-1;) {
-            if(x[candidateForTransmitter+1]-x[leftCoveredHouse] <= k){
+        for (;rightCoveredHouse < house.length-1;) {
+            if(house[candidateForTransmitter+1]-house[leftCoveredHouse] <= range){
                 candidateForTransmitter += 1;
                 rightCoveredHouse += 1;
-            }else if(x[rightCoveredHouse+1]-x[candidateForTransmitter] <= k){
+            }else if(house[rightCoveredHouse+1]-house[candidateForTransmitter] <= range){
                 rightCoveredHouse +=1;
             }else{
                 System.out.println(String.format("(%d,%d,%d)", leftCoveredHouse,candidateForTransmitter,rightCoveredHouse));
@@ -38,7 +50,7 @@ public class HackerlandRadioTransmitter {
             System.out.println(String.format("(%d,%d,%d)", leftCoveredHouse,candidateForTransmitter,rightCoveredHouse));
             transmitterLocations.add(candidateForTransmitter);
         }
-        System.out.println(transmitterLocations.size());
+        return transmitterLocations.size();
     }
 
 }
