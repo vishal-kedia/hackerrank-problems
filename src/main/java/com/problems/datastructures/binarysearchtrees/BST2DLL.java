@@ -84,10 +84,7 @@ public class BST2DLL {
 			return null;
 		}
 		Node head = linkPredecessor(x);
-		System.out.println();
 		Node tail = linkSuccessor(x);
-		System.out.println();
-		System.out.println(String.format("head = %s, tail = %s", head.data,tail.data));
 		head.left = tail;
 		tail.right = head;
 		return head;
@@ -98,7 +95,6 @@ public class BST2DLL {
 		}
 		Node predecessor = max(x.left);
 		if(predecessor!=null){
-			System.out.print(predecessor.data);
 			x.left = deleteMax(x.left);
 			predecessor.right = x;
 			predecessor.left = x.left;
@@ -113,7 +109,6 @@ public class BST2DLL {
 		}
 		Node successor = min(x.right);
 		if(successor!=null){
-			System.out.print(successor.data);
 			x.right = deleteMin(x.right);
 			successor.left = x;
 			successor.right = x.right;
