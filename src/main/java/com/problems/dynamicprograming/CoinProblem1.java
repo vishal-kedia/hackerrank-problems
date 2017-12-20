@@ -44,16 +44,9 @@ public class CoinProblem1 {
         if(n < 0 || k < 0){
             return 0;
         }else if(n == 0){
-            p[k][n] = 1;
-            return p[k][n];
+            return 1;
         }else if(p[k][n] == -1){
-            if(n<coins[k]){
-                p[k][n] = getMaxExchangeInternal(coins, n, k-1, p);
-            }else if(n==coins[k]){
-                p[k][n] = 1 + getMaxExchangeInternal(coins, n, k-1, p);
-            }else{
-                p[k][n] = getMaxExchangeInternal(coins, n-coins[k], k, p) + getMaxExchangeInternal(coins, n, k-1, p);
-            }
+        	p[k][n] = getMaxExchangeInternal(coins, n-coins[k], k, p) + getMaxExchangeInternal(coins, n, k-1, p);
         }
         return p[k][n];
     }

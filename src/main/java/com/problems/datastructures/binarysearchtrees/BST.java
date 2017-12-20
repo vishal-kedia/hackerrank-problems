@@ -29,9 +29,13 @@ public class BST<Key extends Comparable<Key>, Value> {
 		return x.N;
 	}
 	public Value get(Key key){
-		return get(root,key);
+		Node node = get(root,key);
+		if(Objects.nonNull(node)){
+			return node.value;
+		}
+		return null;
 	}
-	private Value get(Node x,Key k){
+	private Node get(Node x,Key k){
 		if(Objects.isNull(x)){
 			return null;
 		}
@@ -41,7 +45,7 @@ public class BST<Key extends Comparable<Key>, Value> {
 		}else if(cmp > 0){
 			return get(x.right,k);
 		}else{
-			return x.value;
+			return x;
 		}
 	}
 	public void put(Key key, Value value){
@@ -53,14 +57,14 @@ public class BST<Key extends Comparable<Key>, Value> {
 		}else{
 			int cmp = key.compareTo(x.key);
 			if(cmp < 0){
-				return put(x.left,key,value);
+				x.left = put(x.left,key,value);
 			}else if(cmp > 0){
-				return put(x.right,key,value);
+				x.right = put(x.right,key,value);
 			}else{
 				x.value = value;
-				x.N = size(x.left) + size(x.right);
-				return x;
 			}
+			x.N = size(x.left) + size(x.right) + 1;
+			return x;
 		}
 	}
 	public Key min(){
@@ -95,11 +99,31 @@ public class BST<Key extends Comparable<Key>, Value> {
 			return max(x.right);
 		}
 	}
+	public Key predecessor(Key key){
+		Node node = get(root,key);
+		if(Objects.nonNull(node)){
+			Node predecessor = predecessor(node);
+			if(Objects.nonNull(predecessor)){
+				return predecessor.key;
+			}
+		}
+		return null;
+	}
 	private Node predecessor(Node x){
 		if(Objects.isNull(x)){
 			return null;
 		}
 		return max(x.left);
+	}
+	public Key successor(Key key){
+		Node node = get(root,key);
+		if(Objects.nonNull(node)){
+			Node successor = successor(node);
+			if(Objects.nonNull(successor)){
+				return successor.key;
+			}
+		}
+		return null;
 	}
 	private Node successor(Node x){
 		if(Objects.isNull(x)){
@@ -126,7 +150,7 @@ public class BST<Key extends Comparable<Key>, Value> {
 		return x;
 	}
 	public void deleteMin(){
-		
+		root = deleteMin(root);
 	}
 	private Node deleteMin(Node x){
 		if(Objects.isNull(x)){
@@ -153,5 +177,11 @@ public class BST<Key extends Comparable<Key>, Value> {
 		succ.right = deleteMin(x.right);
 		succ.N = size(succ.left) + size(succ.right);
 		return succ;
+	}
+	public void print(){
+		
+	}
+	public void print(Node x){
+		
 	}
 }
